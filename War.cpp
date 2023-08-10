@@ -23,8 +23,8 @@ public:
 
 private:
     std::string valueToString() const {
-        static const std::string valueNames[] = {
-            "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"
+        static const std::string valueNames[] = { //will be utilizing this array's index directly for values
+            "", "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" //"" refers to array 0 not having a card value. maybe include joker?
         };
         return valueNames[value];
     }
