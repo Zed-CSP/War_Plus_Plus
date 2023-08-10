@@ -23,13 +23,10 @@ public:
 
 private:
     std::string valueToString() const {
-        switch (value) {
-            case 1: return "Ace";
-            case 11: return "Jack";
-            case 12: return "Queen";
-            case 13: return "King";
-            default: return std::to_string(value);
-        }
+        static const std::string valueNames[] = {
+            "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"
+        };
+        return valueNames[value];
     }
 };
 
