@@ -6,6 +6,64 @@
 
 using namespace std;
 
+class Controller {
+public:
+    Controller() : game() {}
+
+    void run() {
+        displayWelcomeMessage();
+        while (game.isOngoing()) {
+            displayGameState();
+            game.playRound();
+            displayRoundWinner();
+            pauseGame();
+        }
+        displayGameWinner();
+    }
+
+private:
+    void pauseGame() const {
+        std::cout << "Press enter to continue...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
+    void displayWelcomeMessage() const {
+        std::cout << "Welcome to the game of War!" << std::endl;
+        std::cout << "Two players will draw a card, and the player with the higher card wins the round." << std::endl;
+        std::cout << "In the event of a tie, a war is declared!" << std::endl;
+        std::cout << "Press enter to start the game...";
+        pauseGame();
+    }
+
+    void displayGameState(){
+        std::cout << "Player 1 has " << player1.getHandSize() << " cards." << std::endl;
+        std::cout << "Player 2 has " << player2.getHandSize() << " cards." << std::endl;
+    }
+
+    void displayRoundWinner() const {
+        // Here, you can use game's method to get the winner of the round and display it.
+        int roundWinner = game.getRoundWinner();
+        if(roundWinner == 1) {
+            std::cout << "Player 1 wins this round!" << std::endl;
+        } else if(roundWinner == 2) {
+            std::cout << "Player 2 wins this round!" << std::endl;
+        } else {
+            std::cout << "It's a WAR!" << std::endl;
+        }
+    }
+
+    void displayRoundWinner(int player) {
+        std::cout << "Player " << player << " wins this round!" << std::endl;
+        pauseGame();
+    }
+
+    void clearScreen() {
+        std::cout << std::string(100, '\n');
+    }
+
+    Game game;
+};
+
 class Card {
 public:
     Card(int rank, int suit) : rank(rank), suit(suit) {}
@@ -82,6 +140,8 @@ public:
     }
 
     void play() {
+        Controller.displayWelcomeMessage();
+
         while(player1.hasCards() && player2.hasCards()) {
             Card card1 = player1.playCard();
             Card card2 = player2.playCard();
