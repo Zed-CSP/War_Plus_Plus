@@ -7,30 +7,21 @@
 using namespace std;
 
 class Card {
-private:
-    int value;          // 1-13 (Ace through King)
-    std::string suit;   // "Hearts", "Diamonds", "Clubs", "Spades"
-    std::string name;   // e.g., "Ace of Hearts", "2 of Diamonds", ...
-
 public:
-    Card(int v, const std::string& s) : value(v), suit(s) {
-        name = valueToString() + " of " + suit;
+    Card(int rank, int suit) : rank(rank), suit(suit) {}
+
+    int getRank() const { return rank; }
+    int getSuit() const { return suit; }
+
+    void display() const {
+        std::string suits[] = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        std::string ranks[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+        std::cout << ranks[rank-2] << " of " << suits[suit] << std::endl;
     }
-
-    int getValue() const { return value; }
-
-    std::string getName() const { return name; }
 
 private:
-    std::string valueToString() const {
-        switch (value) {
-            case 1: return "Ace";
-            case 11: return "Jack";
-            case 12: return "Queen";
-            case 13: return "King";
-            default: return std::to_string(value);
-        }
-    }
+    int rank; // 2 to 14 (2 to Ace)
+    int suit; // 0 to 3 (Hearts, Diamonds, Clubs, Spades)
 };
 
 class Deck {
