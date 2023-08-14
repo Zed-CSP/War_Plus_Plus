@@ -101,7 +101,7 @@ public:
             }
             else {
                 std::cout << "It's a tie!" << std::endl;
-                // handle the "war" scenario here
+                handleWar(card1, card2);
             }
         }
         
@@ -113,6 +113,59 @@ public:
     }
 
 private:
+    void handleWar(Card& card1, Card& card2) {
+        std::vector<Card> warPile;
+        warPile.push_back(card1);
+        warPile.push_back(card2);
+
+        while (true) {
+            if (!player1.hasCards() || !player2.hasCards()) {
+                if (player1.hasCards()) {
+                    for (const Card& card : warPile) {
+                        player1.addCard(card);
+                    }
+                } else {
+                    for (const Card& card : warPile) {
+                        player2.addCard(card);
+                    }
+                }
+                return;
+            }
+
+            for (int i = 0; i < 3 && player1.hasCards() && player2.hasCards(); i++) {
+                warPile.push_back(player1.playCard());
+                warPile.push_back(player2.playCard());
+            }
+
+            Card warCard1 = player1.playCard();
+            Card warCard2 = player2.playCard();
+            std::cout << "Player 1's war card: "; warCard1.display();
+            std::cout << "Player 2's war card: "; warCard2.display();
+
+            if (warCard1.getRank() > warCard2.getRank()) {
+                std::cout << "Player 1 wins the war!" << std::endl;
+                warPile.push_back(warCard1);
+                warPile.push_back(warCard2);
+                for (const Card& card : warPile) {
+                    player1.addCard(card);
+                }
+                return;
+            } else if (warCard1.getRank() < warCard2.getRank()) {
+                std::cout << "Player 2 wins the war!" << std::endl;
+                warPile.push_back(warCard1);
+                warPile.push_back(warCard2);
+                for (const Card& card : warPile) {
+                    player2.addCard(card);
+                }
+                return;
+            } else {
+                std::cout << "Another tie! The war continues!" << std::endl;
+                warPile.push_back(warCard1);
+                warPile.push_back(warCard2);
+            }
+        }
+    }
+
     Deck deck;
     Player player1;
     Player player2;
