@@ -54,7 +54,7 @@ private:
 class Player {
 public:
     void addCard(const Card& card) {
-        hand.push_back(card);
+        hand.push_back(card); //adding card to the end of hand inorder to prevent broken playstyle
     }
 
     Card playCard() {
