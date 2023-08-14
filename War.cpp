@@ -70,3 +70,56 @@ public:
 private:
     std::vector<Card> hand;
 };
+
+class Game {
+public:
+    Game() : deck(), player1(), player2() {
+        // Deal cards
+        while(!deck.isEmpty()) {
+            player1.addCard(deck.deal());
+            player2.addCard(deck.deal());
+        }
+    }
+
+    void play() {
+        while(player1.hasCards() && player2.hasCards()) {
+            Card card1 = player1.playCard();
+            Card card2 = player2.playCard();
+
+            std::cout << "Player 1 plays: "; card1.display();
+            std::cout << "Player 2 plays: "; card2.display();
+
+            if(card1.getRank() > card2.getRank()) {
+                std::cout << "Player 1 wins this round!" << std::endl;
+                player1.addCard(card1);
+                player1.addCard(card2);
+            }
+            else if(card1.getRank() < card2.getRank()) {
+                std::cout << "Player 2 wins this round!" << std::endl;
+                player2.addCard(card1);
+                player2.addCard(card2);
+            }
+            else {
+                std::cout << "It's a tie!" << std::endl;
+                // handle the "war" scenario here
+            }
+        }
+        
+        if(player1.hasCards()) {
+            std::cout << "Player 1 wins the game!" << std::endl;
+        } else {
+            std::cout << "Player 2 wins the game!" << std::endl;
+        }
+    }
+
+private:
+    Deck deck;
+    Player player1;
+    Player player2;
+};
+
+int main() {
+    Game game;
+    game.play();
+    return 0;
+}
