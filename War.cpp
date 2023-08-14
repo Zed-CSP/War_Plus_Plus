@@ -25,37 +25,30 @@ private:
 };
 
 class Deck {
-private:
-    std::vector<Card> cards;
-
 public:
     Deck() {
-        for (int i = 1; i <= 13; i++) {
-            for (int j = 0; j < 4; j++) {
-                std::string suit = j == 0 ? "Hearts" : j == 1 ? "Diamonds" : j == 2 ? "Clubs" : "Spades";
-                std::string name = std::to_string(i) + " of " + suit;
-                cards.push_back(Card(i, name));
+        for(int suit = 0; suit < 4; ++suit) {
+            for(int rank = 2; rank <= 14; ++rank) {
+                cards.push_back(Card(rank, suit));
             }
         }
-        shuffle();
+        std::random_device rd;
+        std::mt19937 g(rd());  // mt19937 is a random number generator
+        std::shuffle(cards.begin(), cards.end(), g);
     }
 
-    void shuffle() {
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(cards.begin(), cards.end(), g);
-}
-
-
-    Card draw() {
-        Card c = cards.back();
+    Card deal() {
+        Card top = cards.back();
         cards.pop_back();
-        return c;
+        return top;
     }
 
     bool isEmpty() const {
         return cards.empty();
     }
+
+private:
+    std::vector<Card> cards;
 };
 
 
