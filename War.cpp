@@ -51,4 +51,22 @@ private:
     std::vector<Card> cards;
 };
 
+class Player {
+public:
+    void addCard(const Card& card) {
+        hand.push_back(card);
+    }
 
+    Card playCard() {
+        Card top = hand.front();
+        hand.erase(hand.begin());
+        return top;
+    }
+
+    bool hasCards() const {
+        return !hand.empty();
+    }
+
+private:
+    std::vector<Card> hand;
+};
